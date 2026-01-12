@@ -1,0 +1,6 @@
+@EducationalTimeManagement.Api_HostAddress = http://localhost:5158
+
+GET {{EducationalTimeManagement.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
