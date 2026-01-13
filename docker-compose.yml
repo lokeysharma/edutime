@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: ./EducationalTimeManagement.Api
+      dockerfile: Dockerfile
+    container_name: edumgm-api
+    ports:
+      - "0.0.0.0:5000:5000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - DatabaseProvider=Sqlite
+      - ConnectionStrings__SqliteConnection=Data Source=/app/data/app.db
+      - Jwt__Key=ThisIsASuperSecretKeyThatIsLongEnough123!
+      - Jwt__Issuer=EducationalTimeManagement
+      - Jwt__Audience=EducationalTimeManagement
+    volumes:
+      - api-data:/app/data
+    networks:
+      - edumgm-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: edumgm-frontend
+    ports:
+      - "0.0.0.0:80:80"
+    depends_on:
+      - api
+    networks:
+      - edumgm-network
+    restart: unless-stopped
+
+networks:
+  edumgm-network:
+    driver: bridge
+
+volumes:
+  api-data:
