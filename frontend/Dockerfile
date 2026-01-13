@@ -11,10 +11,7 @@ RUN npm install
 # Copy source code
 COPY . .
 
-# Set the API URL for the build (can be overridden at runtime with nginx)
-ENV REACT_APP_API_URL=http://localhost:5000/api
-
-# Build the app
+# Build the app - uses /api as default which nginx will proxy to backend
 RUN npm run build
 
 # Production stage with nginx

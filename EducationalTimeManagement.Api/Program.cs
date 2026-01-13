@@ -121,10 +121,10 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Configure Kestrel to use port 5000
+// Configure Kestrel to use port 5000 on all interfaces (required for Docker)
 builder.WebHost.ConfigureKestrel(options =>
 {
-    options.ListenLocalhost(5000);
+    options.ListenAnyIP(5000);
 });
 
 var app = builder.Build();
@@ -293,11 +293,9 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Configure the HTTP request pipeline
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+// Enable Swagger in all environments for API documentation
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseCors("AllowAll");
 
