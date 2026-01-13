@@ -27,7 +27,7 @@ services:
       dockerfile: Dockerfile
     container_name: edumgm-frontend
     ports:
-      - "0.0.0.0:80:80"
+      - "0.0.0.0:3000:80"
     depends_on:
       - api
     networks:
