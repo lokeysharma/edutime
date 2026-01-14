@@ -20,11 +20,29 @@ const Courses: React.FC = () => {
   const { isAdmin, isTeacher } = useAuth();
 
   useEffect(() => {
-    loadCourses();
-    if (isAdmin || isTeacher) {
-      loadTeachers();
-    }
-  }, []);
+    const loadInitialData = async () => {
+      try {
+        const response = isTeacher 
+          ? await coursesApi.getMyCourses()
+          : await coursesApi.getAll();
+        setCourses(response.data);
+      } catch (error) {
+        console.error('Failed to load courses:', error);
+      } finally {
+        setLoading(false);
+      }
+
+      if (isAdmin || isTeacher) {
+        try {
+          const teachersResponse = await usersApi.getTeachers();
+          setTeachers(teachersResponse.data);
+        } catch (error) {
+          console.error('Failed to load teachers:', error);
+        }
+      }
+    };
+    loadInitialData();
+  }, [isAdmin, isTeacher]);
 
   const loadCourses = async () => {
     try {

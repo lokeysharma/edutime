@@ -25,11 +25,29 @@ const Assignments: React.FC = () => {
   const { isAdmin, isTeacher, isStudent } = useAuth();
 
   useEffect(() => {
-    loadAssignments();
-    if (isAdmin || isTeacher) {
-      loadCourses();
-    }
-  }, []);
+    const loadInitialData = async () => {
+      try {
+        const response = isTeacher
+          ? await assignmentsApi.getMyAssignments()
+          : await assignmentsApi.getAll();
+        setAssignments(response.data);
+      } catch (error) {
+        console.error('Failed to load assignments:', error);
+      } finally {
+        setLoading(false);
+      }
+
+      if (isAdmin || isTeacher) {
+        try {
+          const coursesResponse = await coursesApi.getAll();
+          setCourses(coursesResponse.data);
+        } catch (error) {
+          console.error('Failed to load courses:', error);
+        }
+      }
+    };
+    loadInitialData();
+  }, [isAdmin, isTeacher]);
 
   const loadAssignments = async () => {
     try {
