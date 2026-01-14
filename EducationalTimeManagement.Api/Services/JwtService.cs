@@ -43,6 +43,8 @@ public class JwtService
         return new LoginResponse
         {
             Token = new JwtSecurityTokenHandler().WriteToken(token),
+            Email = user.Email,
+            Role = user.Role,
             Expiration = expiration
         };
     }

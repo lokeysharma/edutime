@@ -50,11 +50,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <div className="sidebar-footer">
           <div className="user-info">
             <div className="user-avatar">
-              {user?.email.charAt(0).toUpperCase()}
+              {user?.email?.charAt(0)?.toUpperCase() || '?'}
             </div>
             <div className="user-details">
-              <span className="user-email">{user?.email}</span>
-              <span className="user-role">{user?.role}</span>
+              <span className="user-email">{user?.email || 'Unknown'}</span>
+              <span className="user-role">{user?.role || 'User'}</span>
             </div>
           </div>
           <button className="btn-logout" onClick={handleLogout}>
