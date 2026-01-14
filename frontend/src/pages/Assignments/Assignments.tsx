@@ -62,17 +62,6 @@ const Assignments: React.FC = () => {
     }
   };
 
-  const loadCourses = async () => {
-    try {
-      const response = isTeacher
-        ? await coursesApi.getMyCourses()
-        : await coursesApi.getAll();
-      setCourses(response.data);
-    } catch (error) {
-      console.error('Failed to load courses:', error);
-    }
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {

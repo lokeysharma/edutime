@@ -57,15 +57,6 @@ const Courses: React.FC = () => {
     }
   };
 
-  const loadTeachers = async () => {
-    try {
-      const response = await usersApi.getTeachers();
-      setTeachers(response.data);
-    } catch (error) {
-      console.error('Failed to load teachers:', error);
-    }
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
