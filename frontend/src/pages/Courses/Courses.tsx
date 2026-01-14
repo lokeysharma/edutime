@@ -50,6 +50,13 @@ const Courses: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate teacherId
+    if (!formData.teacherId || formData.teacherId === 0) {
+      alert('Please select a teacher');
+      return;
+    }
+    
     try {
       if (editingCourse) {
         await coursesApi.update(editingCourse.courseId, formData);
@@ -207,8 +214,8 @@ const Courses: React.FC = () => {
                 <div className="form-group">
                   <label>Teacher</label>
                   <select
-                    value={formData.teacherId}
-                    onChange={(e) => setFormData({ ...formData, teacherId: parseInt(e.target.value) })}
+                    value={formData.teacherId || ''}
+                    onChange={(e) => setFormData({ ...formData, teacherId: parseInt(e.target.value) || 0 })}
                     required
                   >
                     <option value="">Select Teacher</option>
